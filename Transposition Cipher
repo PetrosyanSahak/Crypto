@@ -1,0 +1,44 @@
+# This program is implementation of columnar transposition cipher
+# The user inputs the message and the key for encryption
+# The user inputs the message and the key for decryption
+# If the key is not known, the program can brute force all possible keys
+
+from math import ceil
+
+
+def encrypt(message: str, key: int) -> str:
+    ciphertext = ''
+    for column in range(key):
+        current_index = column
+        while current_index < len(message):
+            ciphertext += message[current_index]
+            current_index += key
+
+    return ciphertext
+
+
+def decrypt(message: str, key: int) -> str:
+    return encrypt(message, ceil(len(message) / key))
+
+
+def main():
+    message = input('Enter the message: ')
+    mode = input('Press e to encrypt, and d to decrypt')
+    if(mode == 'd'):
+        decrypt_mode = input('To brute-force press b, \
+                            If you know the keypress k')
+    if(decrypt_mode == 'k'):
+        key = int(input('Enter the key: '))
+        print(decrypt(message, key))
+
+    if(decrypt_mode == 'b'):
+        for key in range(2, int(len(message) / 2 + 1)):
+            print(decrypt(message, key))
+
+    if(mode == 'e'):
+        key = int(input('Enter the key: '))
+    print(encrypt(message, key))
+
+
+if __name__ == '__main__':
+    main()
